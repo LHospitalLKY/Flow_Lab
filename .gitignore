@@ -1,0 +1,7 @@
+/CppLab/build/
+/CppLab/DataSet/
+/CppLab/.vscode/
+*.flo
+*.png
+*.jpg
+*.jpeg
