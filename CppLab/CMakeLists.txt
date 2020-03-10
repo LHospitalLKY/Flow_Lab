@@ -19,6 +19,15 @@ message(${EIGEN3_INCLUDE_DIR})
 find_package(g2o REQUIRED)
 message("G2O lib is found:"${g2o_INCLUDE_DIR})
 
+# openmp
+find_package(OpenMP REQUIRED)
+if(OPENMP_FOUND)
+    message("OPENMP FOUND")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+endif()
+
 # thread
 find_package(Threads)
 #gtest
@@ -28,6 +37,7 @@ add_library(util
     util/show_flow.cpp
     util/read_write.cpp
     util/evaluation.cpp
+    util/line_tracking.cpp
 )
 target_link_libraries(util
     ${OpenCV_LIBS}
@@ -63,6 +73,14 @@ add_executable(evaluation_TEST
     util/test/evaluation_TEST.cpp
 )
 target_link_libraries(evaluation_TEST
+    util
+    ${OpenCV_LIBS}
+)
+
+add_executable(line_tracking_TEST
+    util/test/line_tracking_TEST.cpp
+)
+target_link_libraries(line_tracking_TEST
     util
     ${OpenCV_LIBS}
 )

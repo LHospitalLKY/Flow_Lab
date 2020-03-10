@@ -1,7 +1,9 @@
 /CppLab/build/
 /CppLab/DataSet/
 /CppLab/.vscode/
+/CppLab/.ipynb_checkpoints/
 *.flo
 *.png
 *.jpg
 *.jpeg
+*.py
