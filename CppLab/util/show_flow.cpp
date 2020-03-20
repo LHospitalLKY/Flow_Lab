@@ -56,6 +56,9 @@ void motionToColor(Mat flow, Mat &color)
 			float fy = flow_at_point[1];
 			if ((fabs(fx) >  UNKNOWN_FLOW_THRESH) || (fabs(fy) >  UNKNOWN_FLOW_THRESH))
 				continue;
+			if (fabs(fx) < UNKNOWN_FLOW_THRESH_MIN || (fabs(fy) < UNKNOWN_FLOW_THRESH_MIN))
+				continue;
+			// std::cout << "fx: " << fx << " fy: " << fy << std::endl;
 			float rad = sqrt(fx * fx + fy * fy);
 			maxrad = maxrad > rad ? maxrad : rad;
 		}
@@ -71,6 +74,11 @@ void motionToColor(Mat flow, Mat &color)
 			float fx = flow_at_point[0] / maxrad;
 			float fy = flow_at_point[1] / maxrad;
 			if ((fabs(fx) >  UNKNOWN_FLOW_THRESH) || (fabs(fy) >  UNKNOWN_FLOW_THRESH))
+			{
+				data[0] = data[1] = data[2] = 0;
+				continue;
+			}
+			if ((fabs(fx) <  UNKNOWN_FLOW_THRESH_MIN) || (fabs(fy) <  UNKNOWN_FLOW_THRESH_MIN))
 			{
 				data[0] = data[1] = data[2] = 0;
 				continue;

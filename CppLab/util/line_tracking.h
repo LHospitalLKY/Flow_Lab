@@ -17,6 +17,7 @@
 
 #include <opencv2/opencv.hpp>
 #include <opencv2/optflow.hpp>
+#include <opencv2/line_descriptor.hpp>
 
 struct Duration {
     int64_t all_duration;
@@ -28,13 +29,17 @@ class LineOpticalFlow {
 public:
     LineOpticalFlow();
 
+    // 设置光流计算方法
+    // TODO: 补充光流算法
+    void setMethod();
+
     // calc
-    void calc(
+    cv::Mat calc(
          cv::Mat &prev,
          cv::Mat &cur, 
          std::vector<cv::Vec4f> &prev_lines, 
          std::vector<cv::Vec4f> &cur_lines, 
-         std::vector<int> &status
+         std::vector<uchar> &status
         );
 
     // 画图, 画出预测得到的直线与输入图像的合成图

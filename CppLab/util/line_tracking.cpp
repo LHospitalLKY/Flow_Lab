@@ -7,16 +7,17 @@
 LineOpticalFlow::LineOpticalFlow() {
 
     deepflow_ = cv::optflow::createOptFlow_DeepFlow();
-    lsd_ = cv::createLineSegmentDetector(LSD_REFINE_STD);
+    lsd_ = cv::createLineSegmentDetector(LSD_REFINE_ADV);
 
 }
 
-void LineOpticalFlow::calc(
+// TODO: 如果不需要返回光流，可以不要返回值
+cv::Mat LineOpticalFlow::calc(
     cv::Mat &prev, 
     cv::Mat &cur, 
     std::vector<cv::Vec4f> &prev_lines, 
     std::vector<cv::Vec4f> &cur_lines,
-    std::vector<int> &status 
+    std::vector<uchar> &status 
 ) {
 
     auto clock_start = std::chrono::system_clock::now();
@@ -24,12 +25,14 @@ void LineOpticalFlow::calc(
     // 验证数据类型
     if(prev.type() != CV_8UC1 || cur.type() != CV_8UC1) {
         std::cerr << "Image Type is not CV_8UC1, please check your input!" << std::endl;
-        return;
+        return cv::Mat::zeros(cv::Size(1, 1), CV_8UC1);
     }
     
     // 提取特征
-    lsd_ -> detect(prev, prev_lines);
-
+    if(prev_lines.empty()) {
+        lsd_ -> detect(prev, prev_lines);
+    }
+    
     auto clock_lines = std::chrono::system_clock::now();
 
     // 计算光流
@@ -89,6 +92,11 @@ void LineOpticalFlow::calc(
     all_time_duration_ = all_time_used.count();
     flowCalc_time_duration_ = flow_time_used.count();
     lineSeg_time_duration_ = tracking_time_used.count();
+
+    // 转换光流
+    cv::Mat flow_color;
+    motionToColor(flow, flow_color);
+    return flow_color;
 
 }
 

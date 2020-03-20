@@ -7,6 +7,8 @@
     #define __EVALUATION_h__EXTERN extern
 #endif
 
+#define EIGEN_USE_BLAS
+
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include <eigen3/Eigen/Dense>

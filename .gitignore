@@ -2,6 +2,7 @@
 /CppLab/DataSet/
 /CppLab/.vscode/
 /CppLab/.ipynb_checkpoints/
+/Line Segment Detector/
 *.flo
 *.png
 *.jpg

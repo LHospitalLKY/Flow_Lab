@@ -20,11 +20,19 @@ int main(int argc, char *argv[]) {
 
     std::vector<cv::Vec4f> prev_lines;
     std::vector<cv::Vec4f> cur_lines;
-    std::vector<int> status;
+    std::vector<uchar> status;
+
+    // 先找出prev_lines
+    cv::Ptr<LineSegmentDetector> lsd = cv::createLineSegmentDetector(LSD_REFINE_ADV);
+    lsd -> detect(frame_0_gray, prev_lines);
 
     lof -> calc(frame_0_gray, frame_1_gray, prev_lines, cur_lines, status);
     cv::Mat draw;
     draw = lof -> drawTracking(frame_1, cur_lines);
+    
+    std::cout << "==========Find Lines: ==========" << std::endl;
+    std::cout <<cur_lines.size() << std::endl;
+    std::cout << "================================" << std::endl; 
 
     cv::imshow("draw tracking", draw);
     cv::waitKey(0);

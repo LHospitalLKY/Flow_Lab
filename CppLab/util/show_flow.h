@@ -15,6 +15,7 @@ using namespace cv;
 using namespace std;
  
 #define UNKNOWN_FLOW_THRESH 1e9
+#define UNKNOWN_FLOW_THRESH_MIN 1e-10
 
 void makecolorwheel(vector<Scalar> &colorwheel);
 void motionToColor(Mat flow, Mat &color);
